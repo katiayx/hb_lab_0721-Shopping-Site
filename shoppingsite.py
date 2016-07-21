@@ -7,7 +7,7 @@ Authors: Joel Burton, Christian Fernandez, Meggie Mahnken.
 """
 
 
-from flask import Flask, render_template, redirect, flash
+from flask import Flask, render_template, redirect, flash, session
 import jinja2
 
 import melons
@@ -17,7 +17,7 @@ app = Flask(__name__)
 
 # Need to use Flask sessioning features
 
-app.secret_key = 'this-should-be-something-unguessable'
+app.secret_key = 'ghdjsem'
 
 # Normally, if you refer to an undefined variable in a Jinja template,
 # Jinja silently ignores this. This makes debugging difficult, so we'll
@@ -50,11 +50,14 @@ def show_melon(melon_id):
     Show all info about a melon. Also, provide a button to buy that melon.
     """
 
-    melon = melons.get_by_id(59)
-    print melon
+    melon = melons.get_by_id(melon_id)
     return render_template("melon_details.html",
                            display_melon=melon)
-
+@app.route('/display_melon_order')
+def display_melon_order():
+    """Captures melons already in shopping cart."""
+    response = request.args.get()
+    session[display_melon_order] = 
 
 @app.route("/cart")
 def shopping_cart():
@@ -105,11 +108,12 @@ def process_login():
     Find the user's login credentials located in the 'request.form'
     dictionary, look up the user, and store them in the session.
     """
-
+    email = request.form.get("email")
+    password = request.form.get("password")
     # TODO: Need to implement this!
 
-    return "Oops! This needs to be implemented"
-
+    # return "Oops! This needs to be implemented"
+    return render_template("")
 
 @app.route("/checkout")
 def checkout():
